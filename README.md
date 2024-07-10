@@ -195,8 +195,8 @@ The `package.json` file includes project metadata and dependencies:
 This project is licensed under the MIT License.
 
 ## Contributors
-
-- Your Name (your.email@example.com)
+email:s12332146@gmail.com
+name:Hugo 
 
 ## Acknowledgments
 
