@@ -21,6 +21,9 @@
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
       </a>
     </div>
+    <div class="views-counter">
+      {{ language === 'en' ? 'Views:' : '瀏覽次數：' }} {{ views }}
+    </div>
     
     <div class="copyright">
       &copy; 2024 Hugo. All rights reserved.
@@ -183,16 +186,29 @@ export default {
       return this.translations[this.language][date];
     },
     incrementViews() {
-      if (!localStorage.getItem('hasVisited')) {
-        this.views++;
-        localStorage.setItem('hasVisited', 'true');
+      // Retrieve the current view count from localStorage
+      let currentViews = parseInt(localStorage.getItem('viewCount')) || 0;
+      
+      // Increment the view count
+      currentViews++;
+      
+      // Save the new view count to localStorage
+      localStorage.setItem('viewCount', currentViews.toString());
+      
+      // Update the views in the component's data
+      this.views = currentViews;
       }
-    }
+    
   },
   mounted() {
     this.updateCountdown();
     setInterval(this.updateCountdown, 1000);
-    this.incrementViews(); // Increment views on mount if not visited before
+    
+    // Load the view count from localStorage when the component mounts
+    this.views = parseInt(localStorage.getItem('viewCount')) || 0;
+    
+    // Increment views
+    this.incrementViews();
   }
 };
 </script>
