@@ -1,4 +1,3 @@
-//Vue.js
 <template>
   <div class="container-fluid">
     <div class="d-flex justify-content-end mb-3">
@@ -6,7 +5,7 @@
     </div>
     <transition name="fade" mode="out-in">
       <div class="row" :key="language">
-        <div v-for="(date, index) in dates" :key="index" class="col-12 col-md-6 col-lg-4 mb-3">
+        <div v-for="(date, index) in dates" :key="index" class="col-12 col-md-6 col-lg-4 mb-2">
           <div class="card bg-dark text-white">
             <div class="card-body">
               <h5 class="card-title">{{ translateEvent(date.event) }}</h5>
@@ -17,6 +16,9 @@
         </div>
       </div>
     </transition>
+    <div class="github-link">
+      <a href="https://github.com/HugoLi0213" target="_blank">GitHub</a>
+    </div>
   </div>
 </template>
 
@@ -183,6 +185,7 @@ this.timeTranslations[this.language][hours === '1h' ? 'hour' : 'hours']}, ${minu
 body {
   background-color: #000;
   color: #fff;
+  padding-top: 10px; /* Reduced padding to move the content closer to the top */
 }
 .container-fluid {
   background-color: #000;
@@ -206,6 +209,15 @@ body {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+.github-link {
+  text-align: center;
+  margin-top: 10px; /* Reduced margin to ensure the link is visible */
+}
+.github-link a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
 }
 @media (max-width: 768px) {
   .card-title {
