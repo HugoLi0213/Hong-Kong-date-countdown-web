@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <h1 class="text-center mb-4">Important Dates for Hong Kong</h1>
+    <h1 class="text-center mb-4">Hong Kong holidays countdown</h1>
     <DatesList />
   </div>
 </template>
