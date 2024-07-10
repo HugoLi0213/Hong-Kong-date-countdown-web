@@ -9,21 +9,30 @@
           <div class="card bg-dark text-white">
             <div class="card-body">
               <h5 class="card-title">{{ translateEvent(date.event) }}</h5>
-              <h6 class="card-subtitle mb-2 text-white">{{ translateDate(date.date) }}</h6> <!-- Changed color to white -->
-              <p :class="['badge', date.timeRemaining === (language === 'en' ? 'Event has passed' : '事件已結束') ? 'bg-danger' : 'bg-primary']">{{ formatCountdown(date.timeRemaining) }}</p>
+              <h6 class="card-subtitle mb-2 text-white">{{ translateDate(date.date) }}</h6>
+              <p :class="['badge', 'countdown-display', date.timeRemaining === (language === 'en' ? 'Event has passed' : '事件已結束') ? 'bg-danger' : 'bg-primary']">
+                {{ formatCountdown(date.timeRemaining) }}
+              </p>
             </div>
           </div>
         </div>
       </div>
     </transition>
     <div class="github-link">
-      <a href="https://github.com/HugoLi0213" target="_blank">
+      <a href="https://github.com/HugoLi0213" target="_blank" rel="noopener">
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
       </a>
     </div>
-    <div class="copyright">
-      &copy; 2024 Hugo. All rights reserved.
-    </div>
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p class="copyright">&copy; 2024 Hugo. All rights reserved.</p>
+        <p class="tech-stack">
+          Built with <span class="tech-item">Vue.js</span> | 
+          Styled with <span class="tech-item">Bootstrap</span> | 
+          Hosted on <span class="tech-item">Vercel</span>
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -192,26 +201,42 @@ export default {
 body {
   background-color: #000;
   color: #fff;
-  padding-top: 0; /* 移除顶部内边距 */
-  margin: 0; /* 移除顶部外边距 */
+  padding-top: 0;
+  margin: 0;
 }
 .container-fluid {
   background-color: #000;
-  padding-top: 10px; /* 添加顶部内边距以创建空间 */
+  padding-top: 10px;
 }
 .card {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .card-title {
-  font-size: 1rem; /* 调整标题的字体大小 */
+  font-size: 1rem;
 }
 .card-subtitle {
-  font-size: 0.8rem; /* 调整副标题的字体大小 */
-  color: #fff; /* 修改日期的字体颜色为白色 */
+  font-size: 0.8rem;
+  color: #fff;
 }
 .badge {
-  font-size: 0.7rem; /* 调整徽章的字体大小 */
+  font-size: 0.7rem;
   padding: 3px;
+}
+.countdown-display {
+  font-size: 0.9rem;
+  padding: 5px;
+  line-height: 1.2;
+  white-space: normal;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
@@ -221,12 +246,12 @@ body {
 }
 .github-link {
   text-align: center;
-  margin-top: 10px; /* Reduced margin to ensure the link is visible */
+  margin-top: 10px;
 }
 .github-link a {
   color: #fff;
   text-decoration: none;
-  font-size: 1rem; /* 调整GitHub链接的字体大小 */
+  font-size: 1rem;
 }
 .github-link img {
   width: 24px;
@@ -235,7 +260,7 @@ body {
 .copyright {
   text-align: center;
   margin-top: 10px;
-  font-size: 0.7rem; /* 调整版权信息的字体大小 */
+  font-size: 0.7rem;
   color: #aaa;
 }
 @media (max-width: 768px) {
@@ -249,8 +274,49 @@ body {
     font-size: 0.6rem;
     padding: 2px;
   }
+  .countdown-display {
+    font-size: 0.8rem;
+  }
   h1 {
     font-size: 1.2rem;
   }
+  .site-footer {
+  margin-top: 20px;
+  padding: 10px 0;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.copyright, .tech-stack {
+  margin: 5px 0;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.tech-stack {
+  font-style: italic;
+}
+
+.tech-item {
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.tech-item:hover {
+  color: #007bff; /* Bootstrap primary color */
+}
+
+@media (max-width: 768px) {
+  .copyright, .tech-stack {
+    font-size: 0.7rem;
+  }
+}
 }
 </style>
