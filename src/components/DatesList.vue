@@ -17,7 +17,12 @@
       </div>
     </transition>
     <div class="github-link">
-      <a href="https://github.com/HugoLi0213" target="_blank">GitHub</a>
+      <a href="https://github.com/HugoLi0213" target="_blank">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
+      </a>
+    </div>
+    <div class="copyright">
+      &copy; 2024 Hugo. All rights reserved.
     </div>
   </div>
 </template>
@@ -155,9 +160,7 @@ export default {
 
       const [days, hours, minutes, seconds] = timeRemaining.split(' ');
 
-      return `${days} ${this.timeTranslations[this.language][days === '1d' ? 'day' : 'days']}, ${hours} ${
-
-this.timeTranslations[this.language][hours === '1h' ? 'hour' : 'hours']}, ${minutes} ${this.timeTranslations[this.language][minutes === '1m' ? 'minute' : 'minutes']}, and ${seconds} ${this.timeTranslations[this.language][seconds === '1s' ? 'second' : 'seconds']}`;
+      return `${days} ${this.timeTranslations[this.language][days === '1d' ? 'day' : 'days']}, ${hours} ${this.timeTranslations[this.language][hours === '1h' ? 'hour' : 'hours']}, ${minutes} ${this.timeTranslations[this.language][minutes === '1m' ? 'minute' : 'minutes']}, and ${seconds} ${this.timeTranslations[this.language][seconds === '1s' ? 'second' : 'seconds']}`;
     },
     updateCountdown() {
       this.dates.forEach(date => {
@@ -185,10 +188,12 @@ this.timeTranslations[this.language][hours === '1h' ? 'hour' : 'hours']}, ${minu
 body {
   background-color: #000;
   color: #fff;
-  padding-top: 10px; /* Reduced padding to move the content closer to the top */
+  padding-top: 0; /* 移除顶部内边距 */
+  margin: 0; /* 移除顶部外边距 */
 }
 .container-fluid {
   background-color: #000;
+  padding-top: 10px; /* 添加顶部内边距以创建空间 */
 }
 .card {
   height: 100%;
@@ -218,6 +223,16 @@ body {
   color: #fff;
   text-decoration: none;
   font-size: 1.2rem;
+}
+.github-link img {
+  width: 24px;
+  height: 24px;
+}
+.copyright {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #aaa;
 }
 @media (max-width: 768px) {
   .card-title {
