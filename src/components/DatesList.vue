@@ -21,9 +21,7 @@
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
       </a>
     </div>
-    <div class="views-counter">
-      {{ views }} views
-    </div>
+    
     <div class="copyright">
       &copy; 2024 Hugo. All rights reserved.
     </div>
@@ -155,7 +153,7 @@ export default {
       const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      return `${days} ${this.timeTranslations[this.language]['days']} ${hours} ${this.timeTranslations[this.language]['hours']} ${minutes} ${this.timeTranslations[this.language]['minutes']} ${seconds} ${this.timeTranslations[this.language]['seconds']}`;
     },
     formatCountdown(timeRemaining) {
       if (timeRemaining === (this.language === 'en' ? 'Event has passed' : '事件已結束')) {
@@ -185,13 +183,16 @@ export default {
       return this.translations[this.language][date];
     },
     incrementViews() {
-      this.views++;
+      if (!localStorage.getItem('hasVisited')) {
+        this.views++;
+        localStorage.setItem('hasVisited', 'true');
+      }
     }
   },
   mounted() {
     this.updateCountdown();
     setInterval(this.updateCountdown, 1000);
-    this.incrementViews(); // Increment views on mount
+    this.incrementViews(); // Increment views on mount if not visited before
   }
 };
 </script>
