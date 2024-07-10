@@ -22,7 +22,7 @@
       </a>
     </div>
     <div class="copyright">
-      &copy; 2024 Your Company. All rights reserved.
+      &copy; 2024 Hugo. All rights reserved.
     </div>
   </div>
 </template>
