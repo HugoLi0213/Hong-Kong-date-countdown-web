@@ -9,7 +9,7 @@
           <div class="card bg-dark text-white">
             <div class="card-body">
               <h5 class="card-title">{{ translateEvent(date.event) }}</h5>
-              <h6 class="card-subtitle mb-2 text-white">{{ translateDate(date.date) }}</h6> <!-- Changed color to white -->
+              <h6 class="card-subtitle mb-2 text-white">{{ translateDate(date.date) }}</h6>
               <p :class="['badge', date.timeRemaining === (language === 'en' ? 'Event has passed' : '事件已結束') ? 'bg-danger' : 'bg-primary']">{{ formatCountdown(date.timeRemaining) }}</p>
             </div>
           </div>
@@ -20,6 +20,9 @@
       <a href="https://github.com/HugoLi0213" target="_blank">
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
       </a>
+    </div>
+    <div class="views-counter">
+      {{ views }} views
     </div>
     <div class="copyright">
       &copy; 2024 Hugo. All rights reserved.
@@ -133,7 +136,8 @@ export default {
           second: '秒',
           seconds: '秒'
         }
-      }
+      },
+      views: 0
     };
   },
   methods: {
@@ -179,11 +183,15 @@ export default {
     },
     translateDate(date) {
       return this.translations[this.language][date];
+    },
+    incrementViews() {
+      this.views++;
     }
   },
   mounted() {
     this.updateCountdown();
     setInterval(this.updateCountdown, 1000);
+    this.incrementViews(); // Increment views on mount
   }
 };
 </script>
@@ -192,25 +200,25 @@ export default {
 body {
   background-color: #000;
   color: #fff;
-  padding-top: 0; /* 移除顶部内边距 */
-  margin: 0; /* 移除顶部外边距 */
+  padding-top: 0;
+  margin: 0;
 }
 .container-fluid {
   background-color: #000;
-  padding-top: 10px; /* 添加顶部内边距以创建空间 */
+  padding-top: 10px;
 }
 .card {
   height: 100%;
 }
 .card-title {
-  font-size: 1rem; /* 调整标题的字体大小 */
+  font-size: 1rem;
 }
 .card-subtitle {
-  font-size: 0.8rem; /* 调整副标题的字体大小 */
-  color: #fff; /* 修改日期的字体颜色为白色 */
+  font-size: 0.8rem;
+  color: #fff;
 }
 .badge {
-  font-size: 0.7rem; /* 调整徽章的字体大小 */
+  font-size: 0.7rem;
   padding: 3px;
 }
 .fade-enter-active, .fade-leave-active {
@@ -221,21 +229,27 @@ body {
 }
 .github-link {
   text-align: center;
-  margin-top: 10px; /* Reduced margin to ensure the link is visible */
+  margin-top: 10px;
 }
 .github-link a {
   color: #fff;
   text-decoration: none;
-  font-size: 1rem; /* 调整GitHub链接的字体大小 */
+  font-size: 1rem;
 }
 .github-link img {
   width: 24px;
   height: 24px;
 }
+.views-counter {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #aaa;
+}
 .copyright {
   text-align: center;
-  margin-top: 10px;
-  font-size: 0.7rem; /* 调整版权信息的字体大小 */
+  margin-top: 5px;
+  font-size: 0.7rem;
   color: #aaa;
 }
 @media (max-width: 768px) {
