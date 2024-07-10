@@ -9,7 +9,7 @@
           <div class="card bg-dark text-white">
             <div class="card-body">
               <h5 class="card-title">{{ translateEvent(date.event) }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{ translateDate(date.date) }}</h6>
+              <h6 class="card-subtitle mb-2 text-white">{{ translateDate(date.date) }}</h6> <!-- Changed color to white -->
               <p :class="['badge', date.timeRemaining === (language === 'en' ? 'Event has passed' : '事件已結束') ? 'bg-danger' : 'bg-primary']">{{ formatCountdown(date.timeRemaining) }}</p>
             </div>
           </div>
@@ -22,7 +22,7 @@
       </a>
     </div>
     <div class="copyright">
-      &copy; 2024 Hugo. All rights reserved.
+      &copy; 2024 Your Company. All rights reserved.
     </div>
   </div>
 </template>
@@ -199,15 +199,15 @@ body {
   height: 100%;
 }
 .card-title {
-  font-size: 1.2rem;
+  font-size: 1rem; /* 调整标题的字体大小 */
 }
 .card-subtitle {
-  font-size: 1rem;
-  color: #aaa;
+  font-size: 0.8rem; /* 调整副标题的字体大小 */
+  color: #fff; /* 修改日期的字体颜色为白色 */
 }
 .badge {
-  font-size: 0.9rem;
-  padding: 5px;
+  font-size: 0.7rem; /* 调整徽章的字体大小 */
+  padding: 3px;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
@@ -222,7 +222,7 @@ body {
 .github-link a {
   color: #fff;
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1rem; /* 调整GitHub链接的字体大小 */
 }
 .github-link img {
   width: 24px;
@@ -231,22 +231,22 @@ body {
 .copyright {
   text-align: center;
   margin-top: 10px;
-  font-size: 0.8rem;
+  font-size: 0.7rem; /* 调整版权信息的字体大小 */
   color: #aaa;
 }
 @media (max-width: 768px) {
   .card-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .card-subtitle {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
   .badge {
-    font-size: 0.8rem;
-    padding: 3px;
+    font-size: 0.6rem;
+    padding: 2px;
   }
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 </style>
