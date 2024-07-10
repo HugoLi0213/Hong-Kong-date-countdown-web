@@ -1,7 +1,9 @@
 <template>
   <div class="container-fluid">
     <div class="d-flex justify-content-end mb-3">
-      <button @click="toggleLanguage" class="btn btn-secondary">{{ language === 'en' ? '切換到中文' : 'Switch to English' }}</button>
+      <button @click="toggleLanguage" class="btn btn-secondary ml-2"><i class="fas fa-language"></i></button>
+      <button @click="sortDatesAscending" class="btn btn-secondary ml-2"><i class="fas fa-sort-amount-up"></i></button>
+      <button @click="sortDatesDescending" class="btn btn-secondary ml-2"><i class="fas fa-sort-amount-down"></i></button>
     </div>
     <transition name="fade" mode="out-in">
       <div class="row" :key="language">
@@ -180,6 +182,12 @@ export default {
         date.timeRemaining = this.calculateTimeRemaining(date.date);
       });
     },
+    sortDatesAscending() {
+      this.dates.sort((a, b) => new Date(a.date) - new Date(b.date));
+    },
+    sortDatesDescending() {
+      this.dates.sort((a, b) => new Date(b.date) - new Date(a.date));
+    },
     toggleLanguage() {
       this.language = this.language === 'en' ? 'zh' : 'en';
     },
@@ -191,6 +199,7 @@ export default {
     }
   },
   mounted() {
+    this.sortDatesDescending(); // 默认降序排序
     this.updateCountdown();
     setInterval(this.updateCountdown, 1000);
   }
@@ -257,30 +266,7 @@ body {
   width: 24px;
   height: 24px;
 }
-.copyright {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 0.7rem;
-  color: #aaa;
-}
-@media (max-width: 768px) {
-  .card-title {
-    font-size: 0.9rem;
-  }
-  .card-subtitle {
-    font-size: 0.7rem;
-  }
-  .badge {
-    font-size: 0.6rem;
-    padding: 2px;
-  }
-  .countdown-display {
-    font-size: 0.8rem;
-  }
-  h1 {
-    font-size: 1.2rem;
-  }
-  .site-footer {
+.site-footer {
   margin-top: 20px;
   padding: 10px 0;
   background-color: rgba(255, 255, 255, 0.05);
@@ -293,7 +279,7 @@ body {
   margin: 0 auto;
 }
 
-.copyright, .tech-stack {
+.footer-content p {
   margin: 5px 0;
   font-size: 0.8rem;
   color: #aaa;
@@ -314,9 +300,24 @@ body {
 }
 
 @media (max-width: 768px) {
-  .copyright, .tech-stack {
+  .card-title {
+    font-size: 0.9rem;
+  }
+  .card-subtitle {
     font-size: 0.7rem;
   }
-}
+  .badge {
+    font-size: 0.6rem;
+    padding: 2px;
+  }
+  .countdown-display {
+    font-size: 0.8rem;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
+  .footer-content p {
+    font-size: 0.7rem;
+  }
 }
 </style>
