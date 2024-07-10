@@ -9,7 +9,7 @@
           <div class="card bg-dark text-white">
             <div class="card-body">
               <h5 class="card-title">{{ translateEvent(date.event) }}</h5>
-              <h6 class="card-subtitle mb-2 text-white">{{ translateDate(date.date) }}</h6>
+              <h6 class="card-subtitle mb-2 text-white">{{ translateDate(date.date) }}</h6> <!-- Changed color to white -->
               <p :class="['badge', date.timeRemaining === (language === 'en' ? 'Event has passed' : '事件已結束') ? 'bg-danger' : 'bg-primary']">{{ formatCountdown(date.timeRemaining) }}</p>
             </div>
           </div>
@@ -21,8 +21,6 @@
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
       </a>
     </div>
-  
-    
     <div class="copyright">
       &copy; 2024 Hugo. All rights reserved.
     </div>
@@ -135,8 +133,7 @@ export default {
           second: '秒',
           seconds: '秒'
         }
-      },
-      views: 0
+      }
     };
   },
   methods: {
@@ -154,7 +151,7 @@ export default {
       const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-      return `${days} ${this.timeTranslations[this.language]['days']} ${hours} ${this.timeTranslations[this.language]['hours']} ${minutes} ${this.timeTranslations[this.language]['minutes']} ${seconds} ${this.timeTranslations[this.language]['seconds']}`;
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
     },
     formatCountdown(timeRemaining) {
       if (timeRemaining === (this.language === 'en' ? 'Event has passed' : '事件已結束')) {
@@ -182,31 +179,11 @@ export default {
     },
     translateDate(date) {
       return this.translations[this.language][date];
-    },
-    incrementViews() {
-      // Retrieve the current view count from localStorage
-      let currentViews = parseInt(localStorage.getItem('viewCount')) || 0;
-      
-      // Increment the view count
-      currentViews++;
-      
-      // Save the new view count to localStorage
-      localStorage.setItem('viewCount', currentViews.toString());
-      
-      // Update the views in the component's data
-      this.views = currentViews;
-      }
-    
+    }
   },
   mounted() {
     this.updateCountdown();
     setInterval(this.updateCountdown, 1000);
-    
-    // Load the view count from localStorage when the component mounts
-    this.views = parseInt(localStorage.getItem('viewCount')) || 0;
-    
-    // Increment views
-    this.incrementViews();
   }
 };
 </script>
@@ -215,25 +192,25 @@ export default {
 body {
   background-color: #000;
   color: #fff;
-  padding-top: 0;
-  margin: 0;
+  padding-top: 0; /* 移除顶部内边距 */
+  margin: 0; /* 移除顶部外边距 */
 }
 .container-fluid {
   background-color: #000;
-  padding-top: 10px;
+  padding-top: 10px; /* 添加顶部内边距以创建空间 */
 }
 .card {
   height: 100%;
 }
 .card-title {
-  font-size: 1rem;
+  font-size: 1rem; /* 调整标题的字体大小 */
 }
 .card-subtitle {
-  font-size: 0.8rem;
-  color: #fff;
+  font-size: 0.8rem; /* 调整副标题的字体大小 */
+  color: #fff; /* 修改日期的字体颜色为白色 */
 }
 .badge {
-  font-size: 0.7rem;
+  font-size: 0.7rem; /* 调整徽章的字体大小 */
   padding: 3px;
 }
 .fade-enter-active, .fade-leave-active {
@@ -244,27 +221,21 @@ body {
 }
 .github-link {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 10px; /* Reduced margin to ensure the link is visible */
 }
 .github-link a {
   color: #fff;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1rem; /* 调整GitHub链接的字体大小 */
 }
 .github-link img {
   width: 24px;
   height: 24px;
 }
-.views-counter {
-  text-align: center;
-  margin-top: 5px;
-  font-size: 0.8rem;
-  color: #aaa;
-}
 .copyright {
   text-align: center;
-  margin-top: 5px;
-  font-size: 0.7rem;
+  margin-top: 10px;
+  font-size: 0.7rem; /* 调整版权信息的字体大小 */
   color: #aaa;
 }
 @media (max-width: 768px) {
