@@ -158,9 +158,13 @@ export default {
         return timeRemaining;
       }
 
-      const [days, hours, minutes, seconds] = timeRemaining.split(' ');
+      const parts = timeRemaining.split(' ');
+      const days = parts[0];
+      const hours = parts[1];
+      const minutes = parts[2];
+      const seconds = parts[3];
 
-      return `${days} ${this.timeTranslations[this.language][days === '1d' ? 'day' : 'days']}, ${hours} ${this.timeTranslations[this.language][hours === '1h' ? 'hour' : 'hours']}, ${minutes} ${this.timeTranslations[this.language][minutes === '1m' ? 'minute' : 'minutes']}, and ${seconds} ${this.timeTranslations[this.language][seconds === '1s' ? 'second' : 'seconds']}`;
+      return `${parseInt(days)} ${this.timeTranslations[this.language]['days']}, ${parseInt(hours)} ${this.timeTranslations[this.language]['hours']}, ${parseInt(minutes)} ${this.timeTranslations[this.language]['minutes']}, and ${parseInt(seconds)} ${this.timeTranslations[this.language]['seconds']}`;
     },
     updateCountdown() {
       this.dates.forEach(date => {
