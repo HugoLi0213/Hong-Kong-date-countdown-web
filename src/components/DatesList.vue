@@ -21,7 +21,7 @@
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
       </a>
     </div>
-   //views
+  
     
     <div class="copyright">
       &copy; 2024 Hugo. All rights reserved.
