@@ -21,9 +21,7 @@
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
       </a>
     </div>
-    <div class="views-counter">
-      {{ language === 'en' ? 'Views:' : '瀏覽次數：' }} {{ views }}
-    </div>
+   //views
     
     <div class="copyright">
       &copy; 2024 Hugo. All rights reserved.
