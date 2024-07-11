@@ -1,6 +1,4 @@
-Certainly! I've removed the "Customizable Events" feature from the README. Here's the updated version:
 
----
 
 # Hong Kong Date Countdown Web
 
