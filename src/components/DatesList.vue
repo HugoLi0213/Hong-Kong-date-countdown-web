@@ -37,6 +37,7 @@
     </footer>
   </div>
 </template>
+import { inject } from "@vercel/analytics"
 
 <script>
 export default {
