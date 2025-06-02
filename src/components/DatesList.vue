@@ -1,20 +1,39 @@
 
 <template>
   <div class="container-fluid">
-    <div class="d-flex justify-content-end mb-3">
-      <button @click="toggleLanguage" class="btn btn-secondary ml-2">
-        <i class="fas fa-language"></i>
-      </button>
-      <button @click="sortDatesAscending" class="btn btn-secondary ml-2">
-        <i class="fas fa-sort-amount-up"></i>
-      </button>
-      <button @click="sortDatesDescending" class="btn btn-secondary ml-2">
-        <i class="fas fa-sort-amount-down"></i>
-      </button>
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <div class="btn-group-container mb-2 mb-md-0">
+        <button @click="viewMode = 'list'" :class="['btn', 'btn-sm', 'mr-2', viewMode === 'list' ? 'btn-success' : 'btn-outline-success']">
+          <i class="fas fa-list"></i> {{ language === 'en' ? 'List' : '列表' }}
+        </button>
+        <button @click="viewMode = 'calendar'" :class="['btn', 'btn-sm', 'mr-2', viewMode === 'calendar' ? 'btn-success' : 'btn-outline-success']">
+          <i class="fas fa-calendar"></i> {{ language === 'en' ? 'Calendar' : '日曆' }}
+        </button>
+      </div>
+      <div v-if="viewMode === 'list'" class="btn-group-container mb-2 mb-md-0">
+        <button @click="showExpired = false" :class="['btn', 'btn-sm', 'mr-2', !showExpired ? 'btn-primary' : 'btn-outline-primary']">
+          {{ language === 'en' ? 'Upcoming' : '即將到來' }}
+        </button>
+        <button @click="showExpired = true" :class="['btn', 'btn-sm', showExpired ? 'btn-primary' : 'btn-outline-primary']">
+          {{ language === 'en' ? 'Past' : '已過期' }}
+        </button>
+      </div>
+      <div class="btn-group-container">
+        <button @click="toggleLanguage" class="btn btn-secondary btn-sm ml-1">
+          <i class="fas fa-language"></i>
+        </button>
+        <button v-if="viewMode === 'list'" @click="sortDatesAscending" class="btn btn-secondary btn-sm ml-1">
+          <i class="fas fa-sort-amount-up"></i>
+        </button>
+        <button v-if="viewMode === 'list'" @click="sortDatesDescending" class="btn btn-secondary btn-sm ml-1">
+          <i class="fas fa-sort-amount-down"></i>
+        </button>
+      </div>
     </div>
     
     <transition name="fade" mode="out-in">
-      <div class="row" :key="language">
+      <!-- List View -->
+      <div v-if="viewMode === 'list'" class="row" :key="language + '-list'">
         <div v-for="(date, index) in sortedDates" :key="index" 
              class="col-12 col-md-6 col-lg-4 mb-2">
           <div class="card bg-dark text-white">
@@ -30,37 +49,54 @@
               ]">
                 {{ formattedCountdown(date.date) }}
               </p>
+              <div v-if="getConsecutiveHolidays(date.date).length > 1" class="consecutive-holiday-info mt-2">
+                <small class="text-warning">
+                  <i class="fas fa-calendar-check"></i>
+                  {{ language === 'en' ? 'Long Weekend' : '連續假期' }}: 
+                  {{ getConsecutiveHolidays(date.date).length }} {{ language === 'en' ? 'days' : '天' }}
+                </small>
+                <div class="holiday-details">
+                  <small class="text-muted">
+                    {{ formatConsecutiveHolidays(date.date) }}
+                  </small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Calendar View -->
+      <div v-else-if="viewMode === 'calendar'" :key="language + '-calendar'">
+        <CalendarView 
+          :dates="dates" 
+          :language="language" 
+          :translations="translations"
+        />
+      </div>
     </transition>
 
-    <div class="github-link">
-      <a href="https://github.com/HugoLi0213" target="_blank" rel="noopener">
-        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
-             alt="GitHub" />
-      </a>
-    </div>
     <footer class="site-footer">
       <div class="footer-content">
         <p class="copyright">&copy; 2025 Hugo. All rights reserved.</p>
-        <p class="tech-stack">
-          Built with <span class="tech-item">Vue.js</span> |
-          Styled with <span class="tech-item">Bootstrap</span> |
-          Hosted on <span class="tech-item">Vercel</span>
-        </p>
       </div>
     </footer>
   </div>
 </template>
 
 <script>
+import CalendarView from './CalendarView.vue';
+
 export default {
+  components: {
+    CalendarView
+  },
   data() {
     return {
       language: 'en',
       sortDirection: 'asc',
+      showExpired: false, // 新增狀態來控制顯示過期或未過期事件
+      viewMode: 'list', // 新增視圖模式：'list' 或 'calendar'
       dates: [
         { event: "New Year's Day", date: 'January 1, 2025' },
         { event: "Lunar New Year's Day", date: 'January 29, 2025' },
@@ -187,7 +223,12 @@ export default {
 
   computed: {
     sortedDates() {
-      return [...this.dates].sort((a, b) => 
+      // 根據 showExpired 狀態來決定顯示哪些事件
+      const filteredDates = this.showExpired 
+        ? this.dates.filter(date => this.isExpired(date.date))  // 顯示已過期的事件
+        : this.dates.filter(date => !this.isExpired(date.date)) // 顯示未過期的事件
+      
+      return filteredDates.sort((a, b) => 
         this.sortDirection === 'asc' 
           ? new Date(a.date) - new Date(b.date)
           : new Date(b.date) - new Date(a.date)
@@ -236,6 +277,59 @@ export default {
 
     sortDatesDescending() {
       this.sortDirection = 'desc'
+    },
+
+    getConsecutiveHolidays(dateString) {
+      const targetDate = new Date(dateString)
+      const consecutiveDays = []
+      
+      // 找出以這個日期為中心的連續假期
+      let currentDate = new Date(targetDate)
+      
+      // 往前找連續假期的開始
+      while (this.isHolidayOrWeekend(currentDate)) {
+        currentDate.setDate(currentDate.getDate() - 1)
+      }
+      currentDate.setDate(currentDate.getDate() + 1) // 回到第一個假期日
+      
+      // 從開始日期往後找所有連續假期
+      while (this.isHolidayOrWeekend(currentDate)) {
+        consecutiveDays.push(new Date(currentDate))
+        currentDate.setDate(currentDate.getDate() + 1)
+      }
+      
+      return consecutiveDays
+    },
+
+    isHolidayOrWeekend(date) {
+      // 檢查是否為週末（週六=6, 週日=0）
+      const dayOfWeek = date.getDay()
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        return true
+      }
+      
+      // 檢查是否為公眾假期
+      const dateString = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long', 
+        day: 'numeric'
+      })
+      
+      return this.dates.some(holiday => holiday.date === dateString)
+    },
+
+    formatConsecutiveHolidays(dateString) {
+      const consecutiveDays = this.getConsecutiveHolidays(dateString)
+      if (consecutiveDays.length <= 1) return ''
+      
+      const startDate = consecutiveDays[0]
+      const endDate = consecutiveDays[consecutiveDays.length - 1]
+      
+      if (this.language === 'en') {
+        return `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+      } else {
+        return `${startDate.getMonth() + 1}月${startDate.getDate()}日 - ${endDate.getMonth() + 1}月${endDate.getDate()}日`
+      }
     }
   },
 
@@ -303,20 +397,27 @@ body {
   opacity: 0;
 }
 
-.github-link {
-  text-align: center;
-  margin-top: 10px;
+.btn-group-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
 }
 
-.github-link a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
+.consecutive-holiday-info {
+  padding: 0.25rem 0;
+  border-radius: 0.25rem;
 }
 
-.github-link img {
-  width: 24px;
-  height: 24px;
+.consecutive-holiday-info .text-warning {
+  font-weight: bold;
+}
+
+.holiday-details {
+  margin-top: 0.25rem;
+}
+
+.holiday-details .text-muted {
+  font-size: 0.75rem;
 }
 
 .site-footer {
@@ -338,21 +439,44 @@ body {
   color: #aaa;
 }
 
-.tech-stack {
-  font-style: italic;
+.view-mode-buttons {
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
-.tech-item {
-  color: #fff;
-  font-weight: bold;
-  transition: color 0.3s ease;
+.btn-success, .btn-outline-success {
+  border-radius: 0.25rem;
 }
 
-.tech-item:hover {
-  color: #007bff;
+.btn-success:hover, .btn-outline-success:hover {
+  background-color: #28a745;
+  border-color: #28a745;
 }
 
 @media (max-width: 768px) {
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+  
+  .btn-group-container {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .btn-group-container:last-child {
+    margin-bottom: 0;
+  }
+  
+  .holiday-details .text-muted {
+    font-size: 0.65rem;
+  }
+  
+  .consecutive-holiday-info {
+    padding: 0.2rem 0;
+  }
+  
   .card-title {
     font-size: 0.9rem;
   }
@@ -376,6 +500,23 @@ body {
   
   .footer-content p {
     font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .col-12 {
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }
 </style>
