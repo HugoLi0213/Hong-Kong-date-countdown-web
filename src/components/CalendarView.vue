@@ -1,18 +1,26 @@
 <template>
-  <div class="calendar-container">
-    <div class="calendar-header d-flex justify-content-between align-items-center mb-3">
-      <button @click="previousMonth" class="btn btn-outline-light btn-sm">
-        <i class="fas fa-chevron-left"></i>
+  <section class="calendar-container" role="application" aria-label="Hong Kong holidays calendar">
+    <header class="calendar-header d-flex justify-content-between align-items-center mb-3">
+      <button @click="previousMonth" 
+              class="btn btn-outline-light btn-sm"
+              :aria-label="`Go to previous month`">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
       </button>
-      <h4 class="month-year">{{ currentMonthYear }}</h4>
-      <button @click="nextMonth" class="btn btn-outline-light btn-sm">
-        <i class="fas fa-chevron-right"></i>
+      <h1 class="month-year h4" role="heading" aria-level="1">{{ currentMonthYear }}</h1>
+      <button @click="nextMonth" 
+              class="btn btn-outline-light btn-sm"
+              :aria-label="`Go to next month`">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
       </button>
-    </div>
+    </header>
 
-    <div class="calendar-grid">
-      <div class="calendar-weekdays">
-        <div v-for="day in weekdays" :key="day" class="weekday">
+    <div class="calendar-grid" role="grid" aria-label="Calendar grid">
+      <div class="calendar-weekdays" role="row">
+        <div v-for="day in weekdays" 
+             :key="day" 
+             class="weekday" 
+             role="columnheader"
+             :aria-label="`${day} column`">
           {{ day }}
         </div>
       </div>
@@ -93,7 +101,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

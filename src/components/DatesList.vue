@@ -1,54 +1,85 @@
 
 <template>
-  <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-      <div class="btn-group-container mb-2 mb-md-0">
-        <button @click="viewMode = 'list'" :class="['btn', 'btn-sm', 'mr-2', viewMode === 'list' ? 'btn-success' : 'btn-outline-success']">
-          <i class="fas fa-list"></i> {{ language === 'en' ? 'List' : '列表' }}
+  <main class="container-fluid" role="main">
+    <header class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <nav class="btn-group-container mb-2 mb-md-0" role="navigation" aria-label="View mode selection">
+        <button @click="viewMode = 'list'" 
+                :class="['btn', 'btn-sm', 'mr-2', viewMode === 'list' ? 'btn-success' : 'btn-outline-success']"
+                :aria-pressed="viewMode === 'list'"
+                aria-label="Switch to list view">
+          <i class="fas fa-list" aria-hidden="true"></i> {{ language === 'en' ? 'List' : '列表' }}
         </button>
-        <button @click="viewMode = 'calendar'" :class="['btn', 'btn-sm', 'mr-2', viewMode === 'calendar' ? 'btn-success' : 'btn-outline-success']">
-          <i class="fas fa-calendar"></i> {{ language === 'en' ? 'Calendar' : '日曆' }}
+        <button @click="viewMode = 'calendar'" 
+                :class="['btn', 'btn-sm', 'mr-2', viewMode === 'calendar' ? 'btn-success' : 'btn-outline-success']"
+                :aria-pressed="viewMode === 'calendar'"
+                aria-label="Switch to calendar view">
+          <i class="fas fa-calendar" aria-hidden="true"></i> {{ language === 'en' ? 'Calendar' : '日曆' }}
         </button>
-      </div>
-      <div v-if="viewMode === 'list'" class="btn-group-container mb-2 mb-md-0">
-        <button @click="showExpired = false" :class="['btn', 'btn-sm', 'mr-2', !showExpired ? 'btn-primary' : 'btn-outline-primary']">
+      </nav>
+      <nav v-if="viewMode === 'list'" class="btn-group-container mb-2 mb-md-0" role="navigation" aria-label="Holiday filter">
+        <button @click="showExpired = false" 
+                :class="['btn', 'btn-sm', 'mr-2', !showExpired ? 'btn-primary' : 'btn-outline-primary']"
+                :aria-pressed="!showExpired"
+                aria-label="Show upcoming holidays">
           {{ language === 'en' ? 'Upcoming' : '即將到來' }}
         </button>
-        <button @click="showExpired = true" :class="['btn', 'btn-sm', showExpired ? 'btn-primary' : 'btn-outline-primary']">
+        <button @click="showExpired = true" 
+                :class="['btn', 'btn-sm', showExpired ? 'btn-primary' : 'btn-outline-primary']"
+                :aria-pressed="showExpired"
+                aria-label="Show past holidays">
           {{ language === 'en' ? 'Past' : '已過期' }}
         </button>
+      </nav>
+      <div class="btn-group-container" role="toolbar" aria-label="Tools">
+        <button @click="toggleLanguage" 
+                class="btn btn-secondary btn-sm ml-1"
+                :aria-label="`Switch to ${language === 'en' ? 'Chinese' : 'English'}`">
+          <i class="fas fa-language" aria-hidden="true"></i>
+        </button>
+        <button v-if="viewMode === 'list'" 
+                @click="sortDatesAscending" 
+                class="btn btn-secondary btn-sm ml-1"
+                aria-label="Sort dates ascending">
+          <i class="fas fa-sort-amount-up" aria-hidden="true"></i>
+        </button>
+        <button v-if="viewMode === 'list'" 
+                @click="sortDatesDescending" 
+                class="btn btn-secondary btn-sm ml-1"
+                aria-label="Sort dates descending">
+          <i class="fas fa-sort-amount-down" aria-hidden="true"></i>
+        </button>
       </div>
-      <div class="btn-group-container">
-        <button @click="toggleLanguage" class="btn btn-secondary btn-sm ml-1">
-          <i class="fas fa-language"></i>
-        </button>
-        <button v-if="viewMode === 'list'" @click="sortDatesAscending" class="btn btn-secondary btn-sm ml-1">
-          <i class="fas fa-sort-amount-up"></i>
-        </button>
-        <button v-if="viewMode === 'list'" @click="sortDatesDescending" class="btn btn-secondary btn-sm ml-1">
-          <i class="fas fa-sort-amount-down"></i>
-        </button>
-      </div>
-    </div>
+    </header>
     
     <transition name="fade" mode="out-in">
       <!-- List View -->
-      <div v-if="viewMode === 'list'" class="row" :key="language + '-list'">
-        <div v-for="(date, index) in sortedDates" :key="index" 
-             class="col-12 col-md-6 col-lg-4 mb-2">
+      <section v-if="viewMode === 'list'" 
+               class="row" 
+               :key="language + '-list'"
+               role="region"
+               :aria-label="`${showExpired ? 'Past' : 'Upcoming'} Hong Kong holidays`">
+        <article v-for="(date, index) in sortedDates" 
+                 :key="index" 
+                 class="col-12 col-md-6 col-lg-4 mb-2"
+                 itemscope 
+                 itemtype="https://schema.org/Event">
           <div class="card bg-dark text-white">
             <div class="card-body">
-              <h5 class="card-title">{{ translatedEvent(date.event) }}</h5>
-              <h6 class="card-subtitle mb-2 text-white">
+              <h2 class="card-title h5" itemprop="name">{{ translatedEvent(date.event) }}</h2>
+              <time class="card-subtitle mb-2 text-white h6" 
+                    :datetime="date.date" 
+                    itemprop="startDate">
                 {{ translatedDate(date.date) }}
-              </h6>
-              <p :class="[
+              </time>
+              <div :class="[
                 'badge',
                 'countdown-display',
                 isExpired(date.date) ? 'bg-danger' : 'bg-primary'
-              ]">
+              ]"
+              role="timer"
+              :aria-label="`Time until ${translatedEvent(date.event)}`">
                 {{ formattedCountdown(date.date) }}
-              </p>
+              </div>
               <div v-if="getConsecutiveHolidays(date.date).length > 1" class="consecutive-holiday-info mt-2">
                 <small class="text-warning">
                   <i class="fas fa-calendar-check"></i>
@@ -63,25 +94,28 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </article>
+      </section>
 
       <!-- Calendar View -->
-      <div v-else-if="viewMode === 'calendar'" :key="language + '-calendar'">
+      <section v-else-if="viewMode === 'calendar'" 
+               :key="language + '-calendar'"
+               role="region"
+               aria-label="Hong Kong holidays calendar view">
         <CalendarView 
           :dates="dates" 
           :language="language" 
           :translations="translations"
         />
-      </div>
+      </section>
     </transition>
 
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
       <div class="footer-content">
         <p class="copyright">&copy; 2025 Hugo. All rights reserved.</p>
       </div>
     </footer>
-  </div>
+  </main>
 </template>
 
 <script>

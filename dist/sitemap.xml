@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Main page -->
+  <url>
+    <loc>https://hong-kong-holidays-countdown.vercel.app/</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hong-kong-holidays-countdown.vercel.app/?lang=zh"/>
+  </url>
+  
+  <!-- Calendar view -->
+  <url>
+    <loc>https://hong-kong-holidays-countdown.vercel.app/#calendar</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Holiday list view -->
+  <url>
+    <loc>https://hong-kong-holidays-countdown.vercel.app/#list</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+</urlset>
