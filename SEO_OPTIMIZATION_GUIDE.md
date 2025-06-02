@@ -12,7 +12,8 @@
 ### 2. Open Graph & Social Media
 - Facebook Open Graph tags for better social sharing
 - Twitter Card meta tags for enhanced Twitter previews
-- Social media image specifications (1200x630px)
+- Social media image specifications (1200x630px) ✅
+- Custom og-image.png created and implemented ✅
 - Locale targeting for Hong Kong market
 
 ### 3. Structured Data (JSON-LD)

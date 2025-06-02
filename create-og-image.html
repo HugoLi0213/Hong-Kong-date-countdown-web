@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        .og-container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .og-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.08)"/><circle cx="90" cy="50" r="0.5" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hk-flag {
+            width: 120px;
+            height: 80px;
+            background: #DE2910;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        
+        .hk-flag::after {
+            content: '🌸';
+            font-size: 40px;
+            color: white;
+        }
+        
+        .title {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            line-height: 1.1;
+        }
+        
+        .subtitle {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .features {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        
+        .feature {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .year-badge {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="og-container" id="ogImage">
+        <div class="year-badge">2025</div>
+        <div class="hk-flag"></div>
+        <h1 class="title">Hong Kong Holidays<br>Countdown</h1>
+        <p class="subtitle">Never miss a holiday again</p>
+        <div class="features">
+            <div class="feature">🕒 Real-time Timer</div>
+            <div class="feature">📅 Calendar View</div>
+            <div class="feature">🌏 EN & 中文</div>
+        </div>
+    </div>
+    
+    <script>
+        // Function to download the image
+        function downloadOGImage() {
+            html2canvas(document.getElementById('ogImage'), {
+                width: 1200,
+                height: 630,
+                scale: 1,
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'og-image.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+        
+        console.log('OG Image template ready. Right-click and "Save as" or use screenshot tool to capture this as og-image.png');
+    </script>
+</body>
+</html>
