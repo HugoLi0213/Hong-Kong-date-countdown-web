@@ -1,18 +1,14 @@
 <template>
   <div class="container mt-5">
     <h1 class="text-center mb-4">Hong Kong Holidays Countdown</h1>
-    <DatesList />
+    <router-view />
   </div>
 </template>
 
 <script>
-import DatesList from './components/DatesList.vue';
-
 export default {
-  components: {
-    DatesList
-  }
-};
+  name: 'App'
+}
 </script>
 
 <style>

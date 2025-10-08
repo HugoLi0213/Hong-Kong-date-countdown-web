@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Hong Kong Holidays</string>
+    <string name="title_activity_main">Hong Kong Holidays</string>
+    <string name="package_name">com.hongkongholidays.countdown</string>
+    <string name="custom_url_scheme">com.hongkongholidays.countdown</string>
+</resources>

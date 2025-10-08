@@ -1,0 +1,19 @@
+[
+  { "event": "New Year's Day", "date": "January 1, 2025" },
+  { "event": "Lunar New Year's Day", "date": "January 29, 2025" },
+  { "event": "Second day of Lunar New Year", "date": "January 30, 2025" },
+  { "event": "Third day of Lunar New Year", "date": "January 31, 2025" },
+  { "event": "Ching Ming Festival", "date": "April 4, 2025" },
+  { "event": "Good Friday", "date": "April 18, 2025" },
+  { "event": "The day following Good Friday", "date": "April 19, 2025" },
+  { "event": "Easter Monday", "date": "April 21, 2025" },
+  { "event": "Labour Day", "date": "May 1, 2025" },
+  { "event": "The Birthday of the Buddha", "date": "May 5, 2025" },
+  { "event": "Tuen Ng Festival", "date": "May 31, 2025" },
+  { "event": "Hong Kong Special Administrative Region Establishment Day", "date": "July 1, 2025" },
+  { "event": "National Day", "date": "October 1, 2025" },
+  { "event": "The day following the Chinese Mid-Autumn Festival", "date": "October 7, 2025" },
+  { "event": "Chung Yeung Festival", "date": "October 29, 2025" },
+  { "event": "Christmas Day", "date": "December 25, 2025" },
+  { "event": "The first weekday after Christmas Day", "date": "December 26, 2025" }
+]
