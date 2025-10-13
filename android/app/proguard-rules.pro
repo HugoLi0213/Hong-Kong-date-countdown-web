@@ -16,36 +16,6 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
-# Capacitor specific rules
--keep class com.getcapacitor.* { *; }
--keep class org.apache.cordova.* { *; }
-
-# Local Notifications
--keep class com.capacitorjs.plugins.localnotifications.* { *; }
-
-# Vue.js and related
--keep class org.mozilla.javascript.* { *; }
--dontwarn org.mozilla.javascript.**
-
-# Keep all Vue components and their methods
--keep class **.vue.** { *; }
-
-# Keep notification data classes
--keep class com.hongkongholidays.countdown.models.** { *; }
-
-# Optimize for size
--optimizationpasses 5
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontpreverify
--verbose
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
-
-# Remove logging
--assumenosideeffects class android.util.Log {
-    public static *** d(...);
-    public static *** v(...);
-    public static *** i(...);
-    public static *** w(...);
-    public static *** e(...);
-}
+# If you keep the line number information, uncomment this to
+# hide the original source file name.
+#-renamesourcefileattribute SourceFile

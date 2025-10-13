@@ -1,0 +1,27 @@
+<!-- Hong Kong Flag SVG Logo -->
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="192" height="192" fill="#DE2910"/>
+  
+  <!-- Central flower -->
+  <g transform="translate(96,96)">
+    <!-- Five petals representing Hong Kong's emblem -->
+    <path d="M0,-40 L12,-15 L35,-15 L18,0 L25,25 L0,10 L-25,25 L-18,0 L-35,-15 L-12,-15 Z" fill="#FFFFFF"/>
+    
+    <!-- Central circle -->
+    <circle cx="0" cy="0" r="8" fill="#DE2910"/>
+    
+    <!-- Inner star -->
+    <path d="M0,-6 L2,-2 L6,-2 L3,0 L4,4 L0,2 L-4,4 L-3,0 L-6,-2 L-2,-2 Z" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Calendar icon elements -->
+  <rect x="20" y="140" width="40" height="32" fill="#FFFFFF" stroke="#000" stroke-width="1"/>
+  <rect x="24" y="144" width="32" height="4" fill="#DE2910"/>
+  <text x="40" y="162" font-family="Arial" font-size="10" text-anchor="middle" fill="#000">25</text>
+  
+  <!-- Clock icon elements -->
+  <circle cx="152" cy="156" r="16" fill="#FFFFFF" stroke="#000" stroke-width="1"/>
+  <line x1="152" y1="156" x2="152" y2="145" stroke="#000" stroke-width="2"/>
+  <line x1="152" y1="156" x2="159" y2="156" stroke="#000" stroke-width="1"/>
+</svg>

@@ -1,54 +1,134 @@
 <template>
-    <div class="notification-badge" v-if="count > 0">
-        <span class="badge-count">{{ count }}</span>
-        <svg class="badge-icon" viewBox="0 0 24 24"><!-- bell icon --><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68C7.63 5.36 6 7.92 6 11v5l-1.29 1.29A1 1 0 006 19h12a1 1 0 00.71-1.71L18 16z"/></svg>
-    </div>
+  <div v-if="showBadge" class="notification-badge">
+    <span
+      class="badge badge-pill"
+      :class="badgeClass"
+      @click="handleClick"
+      :title="tooltipText"
+    >
+      <i :class="iconClass" aria-hidden="true"></i>
+      <span v-if="count > 0" class="count">{{ count }}</span>
+    </span>
+  </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import useNotifications from '../composables/useNotifications.js';
-
-const { getPendingCount } = useNotifications();
-const count = ref(0);
-
-onMounted(async () => {
-    count.value = await getPendingCount();
-});
+<script>
+export default {
+  name: 'NotificationBadge',
+  props: {
+    type: {
+      type: String,
+      default: 'notification',
+      validator: value => ['notification', 'reminder', 'alert', 'info'].includes(value)
+    },
+    count: {
+      type: Number,
+      default: 0
+    },
+    language: {
+      type: String,
+      default: 'en'
+    },
+    clickable: {
+      type: Boolean,
+      default: true
+    }
+  },
+  computed: {
+    showBadge() {
+      return this.count > 0 || this.type === 'notification'
+    },
+    badgeClass() {
+      const baseClass = 'badge-'
+      switch (this.type) {
+        case 'reminder':
+          return baseClass + 'warning'
+        case 'alert':
+          return baseClass + 'danger'
+        case 'info':
+          return baseClass + 'info'
+        default:
+          return baseClass + 'primary'
+      }
+    },
+    iconClass() {
+      switch (this.type) {
+        case 'reminder':
+          return 'fas fa-clock'
+        case 'alert':
+          return 'fas fa-exclamation-triangle'
+        case 'info':
+          return 'fas fa-info-circle'
+        default:
+          return 'fas fa-bell'
+      }
+    },
+    tooltipText() {
+      if (this.count === 0) {
+        return this.language === 'en' ? 'No new notifications' : '沒有新通知'
+      }
+      return this.language === 'en'
+        ? `${this.count} new ${this.type}${this.count > 1 ? 's' : ''}`
+        : `${this.count} 個新${this.getTypeText}`
+    },
+    getTypeText() {
+      switch (this.type) {
+        case 'reminder':
+          return '提醒'
+        case 'alert':
+          return '警報'
+        case 'info':
+          return '資訊'
+        default:
+          return '通知'
+      }
+    }
+  },
+  methods: {
+    handleClick() {
+      if (this.clickable) {
+        this.$emit('badge-click', {
+          type: this.type,
+          count: this.count
+        })
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
 .notification-badge {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: inline-block;
+  cursor: pointer;
 }
-.badge-count {
-    background: #488AFF;
-    color: #fff;
-    border-radius: 50%;
-    padding: 0.3em 0.7em;
-    font-size: 1em;
-    font-weight: bold;
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    z-index: 2;
+
+.notification-badge .badge {
+  position: relative;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  transition: all 0.2s ease;
 }
-.badge-icon {
-    width: 24px;
-    height: 24px;
-    fill: #488AFF;
+
+.notification-badge .badge:hover {
+  transform: scale(1.05);
 }
-@media (max-width: 600px) {
-    .badge-count {
-        font-size: 0.8em;
-        padding: 0.2em 0.5em;
-    }
-    .badge-icon {
-        width: 20px;
-        height: 20px;
-    }
+
+.notification-badge .count {
+  margin-left: 0.25rem;
+  font-weight: bold;
+}
+
+.notification-badge .badge.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.notification-badge .badge.badge-danger {
+  background-color: #dc3545;
+}
+
+.notification-badge .badge.badge-info {
+  background-color: #17a2b8;
 }
 </style>

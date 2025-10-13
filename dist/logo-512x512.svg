@@ -1,0 +1,42 @@
+<!-- Hong Kong Holidays Countdown Logo -->
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#DE2910"/>
+  <circle cx="256" cy="256" r="220" fill="#FFFFFF"/>
+  <circle cx="256" cy="256" r="200" fill="#DE2910"/>
+  
+  <!-- Hong Kong Bauhinia flower -->
+  <g transform="translate(256,180)">
+    <!-- Five petals -->
+    <path d="M0,-50 L15,-20 L45,-20 L23,0 L30,30 L0,15 L-30,30 L-23,0 L-45,-20 L-15,-20 Z" fill="#FFFFFF"/>
+    <!-- Center -->
+    <circle cx="0" cy="0" r="12" fill="#DE2910"/>
+    <path d="M0,-8 L3,-3 L8,-3 L4,0 L6,6 L0,3 L-6,6 L-4,0 L-8,-3 L-3,-3 Z" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Calendar/countdown elements -->
+  <g transform="translate(256,320)">
+    <!-- Calendar base -->
+    <rect x="-60" y="-25" width="120" height="50" rx="8" fill="#FFFFFF" stroke="#000" stroke-width="3"/>
+    <!-- Calendar header -->
+    <rect x="-55" y="-20" width="110" height="12" fill="#DE2910"/>
+    <!-- Calendar date -->
+    <text x="0" y="8" font-family="Arial Black" font-size="24" text-anchor="middle" fill="#000" font-weight="bold">2025</text>
+    
+    <!-- Clock hands indicating countdown -->
+    <g transform="translate(-80,-10)">
+      <circle cx="0" cy="0" r="15" fill="#FFFFFF" stroke="#000" stroke-width="2"/>
+      <line x1="0" y1="0" x2="0" y2="-10" stroke="#DE2910" stroke-width="3"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#DE2910" stroke-width="2"/>
+    </g>
+    
+    <g transform="translate(80,-10)">
+      <circle cx="0" cy="0" r="15" fill="#FFFFFF" stroke="#000" stroke-width="2"/>
+      <line x1="0" y1="0" x2="0" y2="-10" stroke="#DE2910" stroke-width="3"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#DE2910" stroke-width="2"/>
+    </g>
+  </g>
+  
+  <!-- Border ring -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#000" stroke-width="8"/>
+</svg>

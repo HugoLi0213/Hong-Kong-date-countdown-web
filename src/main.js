@@ -2,9 +2,12 @@
 import { inject } from '@vercel/analytics';
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from './router.js';
 
+// Create and mount the Vue app
 const app = createApp(App);
-app.use(router);
+
+// Inject Vercel Analytics
 inject();
+
+// Mount the app to the DOM
 app.mount('#app');
