@@ -6,7 +6,7 @@
 
 A comprehensive Hong Kong public holidays countdown web application that helps users track all official holidays and long weekends in Hong Kong. Built with Vue.js and Bootstrap, featuring both English and Chinese language support with an intuitive calendar and list view interface.
 
-## ✨ Latest Updates (2025)
+## ✨ Latest Updates (2026)
 
 ### 🆕 New Features Added
 - **📅 Interactive Calendar View** - Click on dates to see holiday details with visual indicators
